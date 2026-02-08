@@ -9,20 +9,18 @@ function showPopup(message, param) {
   let popUpTemplate = "";
 
   if (param === "blush") {
-    // Logic for the blush message
     popUpTemplate = `
     <div class="pop-up">
         <p>${message}</p>
-        <button onclick="closePopup()">Close</button>
+        <div class="inner-button"><button onclick="closePopup()">Close</button></div>
     </div>`;
   } else if (param === "yes") {
-    // Logic for the song selection (message is an array here)
     const songButtons = message
       .map(
         (song) => `
-        <button class="song-option" onclick="selectSong('${encodeURIComponent(song)}')">
+        <div class="inner-button"> <button onclick="selectSong('${encodeURIComponent(song)}')">
           ${song}
-        </button>
+        </button></div>
       `,
       )
       .join("");
@@ -33,24 +31,43 @@ function showPopup(message, param) {
           <div class="song-list">
             ${songButtons}
           </div>
-          <button onclick="closePopup()" style="margin-top:10px;">Cancel</button>
+          <div class="inner-button"><button onclick="closePopup()" style="margin-top:10px;">Cancel</button></div>
       </div>`;
   }
 
   container.innerHTML = popUpTemplate;
 }
 
-// Redirect function
 function selectSong(songName) {
-  // This sends the name to your player page via URL
-  window.location.href = `player.html?song=${songName}`;
+  window.location.href = `../templates/player.html?song=${songName}`;
+}
+
+function heartBurst() {
+  const scalar = 3;
+  const heart = confetti.shapeFromText({ text: "❤️", scalar });
+
+  confetti({
+    shapes: [heart],
+    particleCount: 80,
+    spread: 100,
+    origin: { y: 0.6 },
+    scalar,
+  });
 }
 
 function blushAlert() {
+  heartBurst();
   showPopup("Awww you are blushing!!!!", "blush");
 }
 
 function askSong() {
+  confetti({
+    particleCount: 150,
+    spread: 70,
+    origin: { y: 0.6 },
+    colors: ["#ff758c", "#ffb3c1", "#ffffff", "#ff9770"],
+  });
+
   const songs = ["Mera Mann Kehne Laga", "Tu Hi Mera", "Pehli Dafa"];
   showPopup(songs, "yes");
 }
