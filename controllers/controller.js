@@ -75,3 +75,9 @@ function askSong() {
 function closePopup() {
   document.getElementById("popup-container").innerHTML = "";
 }
+window.addEventListener("pageshow", (event) => {
+  const container = document.getElementById("popup-container");
+  if (container) {
+    container.innerHTML = "";
+  }
+});
